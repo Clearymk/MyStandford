@@ -1,20 +1,16 @@
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Functions;
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.ling.LabeledWord;
-import edu.stanford.nlp.process.TokenizerFactory;
 import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 import edu.stanford.nlp.process.CoreLabelTokenFactory;
 import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.process.Tokenizer;
+import edu.stanford.nlp.process.TokenizerFactory;
 import edu.stanford.nlp.trees.Tree;
 import edu.stanford.nlp.trees.tregex.TregexMatcher;
 import edu.stanford.nlp.trees.tregex.TregexPattern;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 class Parser {
 
@@ -62,6 +58,15 @@ class Parser {
         while (matcher.find()) {
             Tree match = matcher.getMatch();
             List<Tree> leaves = match.getLeaves();
+
+            try {
+                BufferedWriter out = new BufferedWriter(new FileWriter("npverbs.txt", true));
+                out.write(leaves.toString().replace("[", "").replace("]", "").replace(",", "") + "\n");
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             System.out.println(leaves);
         }
     }
